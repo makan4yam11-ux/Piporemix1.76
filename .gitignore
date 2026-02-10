@@ -1,0 +1,62 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing
+coverage/
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+.cache/
+.temp/
+tmp/
+
+# Database
+*.db
+*.sqlite
+migrations/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Replit specific - DO NOT ADD
+# .replit
+# replit.nix
+# replit.md

@@ -1,0 +1,466 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: 'Open Sans', sans-serif;
+  /* Core Background System Variables */
+  --app-background: #FFFFFF;
+  --bg-main: #FFFFFF;
+  --bg-surface: #F9FAFB;
+  --bg-card: #FFFFFF;
+  
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --border-color: #E5E7EB;
+  --text-main: #111827;
+  --text-muted: #6B7280;
+  --primary-color: #6366F1;
+  --hover-color: #4F46E5;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 330 85% 65%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 221 83% 53%;
+  --radius: 12px;
+}
+
+.dark {
+  /* Core Background System Variables - DARK MODE */
+  --app-background: #2d3133;
+  --bg-main: #2d3133;
+  --bg-surface: #2d3133;
+  --bg-card: #1e2122;
+  
+  --background: 200 6% 19%;
+  --foreground: 210 40% 98%;
+  --border-color: #1e2122;
+  --text-main: #F9FAFB;
+  --text-muted: #9CA3AF;
+  --primary-color: #818CF8;
+  --hover-color: #6366F1;
+
+  --card: 200 6% 13%;
+  --card-foreground: 210 40% 98%;
+  --popover: 200 6% 13%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 222 47% 11%;
+  --secondary: 200 6% 25%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 200 6% 25%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 217 91% 60%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 200 6% 25%;
+  --input: 200 6% 25%;
+  --ring: 224 76% 48%;
+}
+
+@layer base {
+  /* HARD-LOCK BACKGROUND SYSTEM */
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--app-background) !important;
+    color: var(--text-main);
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    overflow-x: hidden;
+  }
+
+  /* Force top background color */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-color: var(--app-background);
+    z-index: -1;
+  }
+
+  .dark html, .dark body, .dark #root {
+    background-color: #2d3133 !important;
+  }
+
+  * {
+    border-color: var(--border-color);
+  }
+
+  /* Custom Auto-Hiding Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  body:not(.is-scrolling) ::-webkit-scrollbar,
+  body:not(.is-scrolling)::-webkit-scrollbar {
+    display: none;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  /* This is a CSS-only trick to hide scrollbar when not in use */
+  @supports (scrollbar-width: thin) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+    }
+  }
+
+  /* For better control, we use a utility class that can be applied to scrolling containers */
+  .autohide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE/Edge */
+  }
+
+  .autohide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Webkit */
+  }
+
+  .autohide-scrollbar.show-scroll {
+    scrollbar-width: thin;
+  }
+
+  .autohide-scrollbar.show-scroll::-webkit-scrollbar {
+    display: block;
+  }
+
+  .page {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+  }
+
+  .page.hidden {
+    opacity: 0 !important;
+    transform: scale(0.98);
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+  }
+
+  body {
+    @apply font-sans antialiased font-semibold;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Headings with responsive sizes */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+    line-height: var(--leading-tight);
+  }
+
+  h1 { font-size: var(--text-3xl); }
+  h2 { font-size: var(--text-2xl); }
+  h3 { font-size: var(--text-xl); }
+  h4 { font-size: var(--text-lg); }
+  h5, h6 { font-size: var(--text-base); }
+
+  p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  input, textarea, select {
+    font-size: var(--text-base) !important;
+    line-height: var(--leading-normal);
+    min-height: 2.75rem;
+  }
+
+  button {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    min-height: 2.75rem;
+  }
+}
+
+@layer utilities {
+  .penguin-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  
+  .chat-bubble {
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  @keyframes slideUp {
+    from { 
+      opacity: 0; 
+      transform: translateY(12px) scale(0.95); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
+  }
+
+  /* Gentle breathing glow for reminder cards */
+  .breathing-glow {
+    animation: breathingGlow 8s ease-in-out infinite;
+  }
+
+  @keyframes breathingGlow {
+    0%, 100% { 
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
+    50% { 
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  /* Soft tap scale for reminder cards */
+  .soft-tap {
+    transition: transform 0.2s ease-out;
+  }
+
+  .soft-tap:active {
+    transform: scale(0.98);
+  }
+
+  /* Gentle sparkle animation */
+  @keyframes gentleSparkle {
+    0% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0); }
+  }
+
+  .sparkle {
+    animation: gentleSparkle 0.6s ease-out forwards;
+  }
+
+  /* Gentle shimmer for today's date in calendar */
+  .today-shimmer {
+    animation: todayShimmer 4s ease-in-out infinite;
+  }
+
+  @keyframes todayShimmer {
+    0%, 100% { 
+      box-shadow: 0 4px 20px rgba(251, 191, 36, 0.25);
+    }
+    50% { 
+      box-shadow: 0 6px 28px rgba(251, 191, 36, 0.4);
+    }
+  }
+
+  /* Gentle fade-slide animation for chat messages */
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .premium-header {
+    background: linear-gradient(180deg, rgba(99,102,241,0.18), rgba(99,102,241,0.05));
+    box-shadow: 0 12px 32px rgba(99,102,241,0.12);
+    border-radius: 0 0 24px 24px;
+    padding: 24px 20px;
+  }
+
+  .glass-nav {
+    @apply bg-background/75 backdrop-blur-xl;
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    border-radius: 24px;
+  }
+
+  /* RESPONSIVE LAYOUT SYSTEM - Mobile-first, proportional scaling */
+  
+  /* Safe area utilities for device notches and rounded corners */
+  .safe-area-top {
+    padding-top: max(env(safe-area-inset-top, 0px), 1rem);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
+  }
+  
+  .safe-area-left {
+    padding-left: max(env(safe-area-inset-left, 0px), 1rem);
+  }
+  
+  .safe-area-right {
+    padding-right: max(env(safe-area-inset-right, 0px), 1rem);
+  }
+  
+  .safe-area-x {
+    padding-left: max(env(safe-area-inset-left, 0px), 1rem);
+    padding-right: max(env(safe-area-inset-right, 0px), 1rem);
+  }
+  
+  .safe-area-y {
+    padding-top: max(env(safe-area-inset-top, 0px), 1rem);
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
+  }
+  
+  .safe-area-all {
+    padding-top: max(env(safe-area-inset-top, 0px), 1rem);
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
+    padding-left: max(env(safe-area-inset-left, 0px), 1rem);
+    padding-right: max(env(safe-area-inset-right, 0px), 1rem);
+  }
+
+  /* Responsive container that centers content and limits max width */
+  .responsive-container {
+    @apply w-full mx-auto;
+    max-width: min(100%, 28rem);
+    padding-left: clamp(0.75rem, 4vw, 1.5rem);
+    padding-right: clamp(0.75rem, 4vw, 1.5rem);
+  }
+
+  /* Responsive avatar/icon sizing - scales with viewport */
+  .avatar-responsive-lg {
+    width: clamp(8rem, 25vw, 12rem);
+    height: clamp(8rem, 25vw, 12rem);
+  }
+  
+  .avatar-responsive-md {
+    width: clamp(3rem, 12vw, 4.5rem);
+    height: clamp(3rem, 12vw, 4.5rem);
+  }
+  
+  .avatar-responsive-sm {
+    width: clamp(2rem, 8vw, 3rem);
+    height: clamp(2rem, 8vw, 3rem);
+  }
+
+  /* Responsive icon sizing */
+  .icon-responsive-lg {
+    width: clamp(1.75rem, 6vw, 2.5rem);
+    height: clamp(1.75rem, 6vw, 2.5rem);
+  }
+  
+  .icon-responsive-md {
+    width: clamp(1.25rem, 4vw, 1.75rem);
+    height: clamp(1.25rem, 4vw, 1.75rem);
+  }
+  
+  .icon-responsive-sm {
+    width: clamp(1rem, 3vw, 1.25rem);
+    height: clamp(1rem, 3vw, 1.25rem);
+  }
+
+  /* Responsive button sizing */
+  .btn-responsive {
+    padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 4vw, 1.5rem);
+    font-size: clamp(0.875rem, 3vw, 1rem);
+    border-radius: clamp(1rem, 4vw, 2rem);
+  }
+
+  /* Responsive card padding */
+  .card-responsive {
+    padding: clamp(0.75rem, 3vw, 1.5rem);
+    border-radius: clamp(1rem, 4vw, 2rem);
+  }
+
+  /* Responsive gap utilities */
+  .gap-responsive-sm {
+    gap: clamp(0.25rem, 1.5vw, 0.5rem);
+  }
+  
+  .gap-responsive-md {
+    gap: clamp(0.5rem, 2vw, 1rem);
+  }
+  
+  .gap-responsive-lg {
+    gap: clamp(0.75rem, 3vw, 1.5rem);
+  }
+
+  /* Responsive text sizing */
+  .text-responsive-xs {
+    font-size: clamp(0.625rem, 2.5vw, 0.75rem);
+  }
+  
+  .text-responsive-sm {
+    font-size: clamp(0.75rem, 3vw, 0.875rem);
+  }
+  
+  .text-responsive-base {
+    font-size: clamp(0.875rem, 3.5vw, 1rem);
+  }
+  
+  .text-responsive-lg {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+  }
+  
+  .text-responsive-xl {
+    font-size: clamp(1.125rem, 4.5vw, 1.5rem);
+  }
+  
+  .text-responsive-2xl {
+    font-size: clamp(1.25rem, 5vw, 1.875rem);
+  }
+  
+  .text-responsive-3xl {
+    font-size: clamp(1.5rem, 6vw, 2.25rem);
+  }
+
+  /* Prevent overflow and ensure content stays within bounds */
+  .overflow-safe {
+    overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Flexible spacing that adapts to screen */
+  .spacing-responsive {
+    margin: clamp(0.5rem, 2vw, 1rem);
+    padding: clamp(0.5rem, 2vw, 1rem);
+  }
+
+  /* Touch-friendly minimum sizes */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Aspect ratio containers for consistent proportions */
+  .aspect-square-responsive {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    max-width: clamp(8rem, 30vw, 12rem);
+  }
+}
